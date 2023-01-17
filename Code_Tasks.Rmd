@@ -1,0 +1,86 @@
+---
+title: "Untitled"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+rm(list=ls())
+library(faraway)
+library(leaps)
+head(fat)
+```
+
+```{r}
+model_1 = regsubsets(siri ~ age+weight+height+neck+chest+abdom+hip+thigh+knee+ankle+biceps+forearm+wrist, data=fat, nvmax=12)
+result_1 = summary(model_1)
+result_1
+```
+
+```{r}
+result_1$bic
+```
+
+```{r}
+which.min(result_1$bic)
+```
+
+```{r}
+which(result_1$which[which.min(result_1$bic), ])
+```
+
+```{r}
+coef(model_1, which.min(result_1$bic))
+```
+
+```{r}
+model_2 = regsubsets(siri ~ 
+age+weight+height+neck+chest+abdom+hip+thigh+knee+ankle+biceps+forearm+wrist, data=fat, nvmax=12, method = "forward")
+result_2 = summary(model_2)
+result_2
+```
+
+```{r}
+result_2$bic
+```
+
+```{r}
+which.min(result_2$bic)
+```
+
+```{r}
+which(result_2$which[which.min(result_2$bic), ])
+```
+
+```{r}
+coef(model_2, which.min(result_2$bic))
+```
+
+```{r}
+model_3 = regsubsets(siri ~ 
+age+weight+height+neck+chest+abdom+hip+thigh+knee+ankle+biceps+forearm+wrist, 
+data=fat, nvmax=12, method = "backward")
+result_3 = summary(model_3)
+result_3
+```
+
+```{r}
+result_3$bic
+```
+
+```{r}
+which.min(result_3$bic)
+```
+
+```{r}
+which(result_3$which[which.min(result_3$bic),])
+```
+
+```{r}
+coef(model_3, which.min(result_3$bic))
+```
+
